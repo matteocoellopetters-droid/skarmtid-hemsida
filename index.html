@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", Arial, sans-serif;
-            background-color: #000;
+            background-color: #1a1a1c; /* Ändrad till samma mörkgråa som din bild */
             margin: 0;
             height: 100vh;
             overflow: hidden;
@@ -17,32 +17,65 @@
 
         /* Låsskärm */
         #login-page {
-            background-color: #1c1c1e;
             width: 100%;
             max-width: 450px;
             height: 100%;
-            border-radius: 40px 40px 0 0;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .pincode-section { margin-top: 170px; text-align: center; }
-        .section-title { font-size: 17px; font-weight: 600; color: white; margin-bottom: 35px; }
-        .dots-container { display: flex; gap: 24px; margin-bottom: 40px; }
-        .dot { width: 15px; height: 15px; border: 1.5px solid white; border-radius: 50%; }
-        .dot.active { background-color: white; }
-        .error-pill { background-color: #ff3b30; color: white; padding: 6px 18px; border-radius: 50px; font-size: 13px; }
+        .pincode-section { 
+            margin-top: 200px; 
+            text-align: center; 
+            width: 100%; 
+        }
+
+        .section-title { 
+            font-size: 20px; 
+            font-weight: 600; 
+            color: white; 
+            margin-bottom: 45px; 
+            letter-spacing: 0.5px;
+        }
+        
+        .dots-container { 
+            display: flex; 
+            justify-content: center; /* Den här raden fixar så prickarna hamnar i mitten! */
+            gap: 25px; 
+            margin-bottom: 50px; 
+        }
+        
+        .dot { 
+            width: 16px; 
+            height: 16px; 
+            border: 1px solid white; 
+            border-radius: 50%; 
+            background-color: transparent; /* Gör så att de är ihåliga från början */
+        }
+        
+        .dot.active { 
+            background-color: white; 
+        }
+        
+        .error-pill { 
+            background-color: #ff3b30; 
+            color: white; 
+            padding: 8px 20px; 
+            border-radius: 50px; 
+            font-size: 14px; 
+            display: inline-block; 
+        }
 
         /* Fake YouTube */
         #fake-youtube {
             display: none;
-            background: #0f0f0f;
+            background: #000;
             width: 100%;
             max-width: 450px;
             height: 100vh;
-            overflow-y: auto; /* Låter bilden scrollas om den är lång */
+            overflow-y: auto;
         }
 
         #hidden-input { position: absolute; opacity: 0; }
