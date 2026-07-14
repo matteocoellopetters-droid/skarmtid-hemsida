@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", Arial, sans-serif;
-            background-color: #1a1a1c; /* Ändrad till samma mörkgråa som din bild */
+            background-color: #1a1a1c;
             margin: 0;
             height: 100vh;
             overflow: hidden;
@@ -42,7 +42,7 @@
         
         .dots-container { 
             display: flex; 
-            justify-content: center; /* Den här raden fixar så prickarna hamnar i mitten! */
+            justify-content: center; 
             gap: 25px; 
             margin-bottom: 50px; 
         }
@@ -52,7 +52,7 @@
             height: 16px; 
             border: 1px solid white; 
             border-radius: 50%; 
-            background-color: transparent; /* Gör så att de är ihåliga från början */
+            background-color: transparent; 
         }
         
         .dot.active { 
@@ -94,7 +94,7 @@
     </div>
 
     <div id="fake-youtube">
-        <img src="Screenshot 2026-07-14 20.31.49.png" style="width: 100%; display: block;">
+        <img src="unnamed.jpg" style="width: 100%; display: block;">
         
         <h2 id="revealed-code" style="color: #ff3b30; text-align: center; margin-top: 20px; padding-bottom: 30px;"></h2>
     </div>
@@ -118,6 +118,9 @@
 
             if(length === 4) {
                 let theCode = input.value;
+                
+                // Den här raden stänger ner tangentbordet!
+                input.blur();
                 
                 setTimeout(() => {
                     loginPage.style.display = "none";
