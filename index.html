@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ange lösenkod för Skärmtid</title>
+
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    background-color: #000;
+    margin: 0;
+    padding-top: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+}
+
+.modal-sheet {
+    background-color: #1c1c1e;
+    flex-grow: 1;
+    border-radius: 40px 40px 0 0;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    background-color: #3a3a3c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.close-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: white;
+    stroke-width: 2.2;
+    fill: none;
+}
+
+.pincode-section {
+    margin-top: 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 35px;
+}
+
+.dots-container {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid white;
+    border-radius: 50%;
+}
+
+.dot.active {
+    background-color: white;
+}
+
+.error-pill {
+    background-color: #ff3b30;
+    color: white;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+#hidden-input {
+    position: absolute;
+    opacity: 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="modal-sheet" onclick="focusInput()">
+
+<div class="close-btn">
+<svg viewBox="0 0 24 24">
+<line x1="4" y1="4" x2="20" y2="20"></line>
+<line x1="20" y1="4" x2="4" y2="20"></line>
+</svg>
+</div>
+
+<div class="pincode-section">
+
+<div class="section-title">
+Ange lösenkod för Skärmtid
+</div>
+
+<div class="dots-container">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+
+<div class="error-pill">
+1 misslyckat lösenkodsförsök
+</div>
+
+</div>
+</div>
+
+
+<input type="tel" id="hidden-input" maxlength="4">
+
+
+<script>
+const input = document.getElementById("hidden-input");
+const dots = document.querySelectorAll(".dot");
+
+window.onload = () => {
+    input.focus();
+};
+
+function focusInput(){
+    input.focus();
+}
+
+input.addEventListener("input", () => {
+
+let length = input.value.length;
+
+dots.forEach((dot,index)=>{
+    if(index < length){
+        dot.classList.add("active");
+    } else {
+        dot.classList.remove("active");
+    }
+});
+
+if(length === 4){
+
+setTimeout(()=>{
+window.location.href="https://www.youtube.com";
+},300);
+
+}
+
+});
+</script>
+
+</body>
+</html>
